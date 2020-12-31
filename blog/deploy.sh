@@ -6,7 +6,7 @@ set -e
 printf "\033[0;32mDeploying updates to GitHub...\033[0m\n"
 
 # Build the project.
-hugo -t ezhil # if using a theme, replace with `hugo -t <YOURTHEME>`
+hugo -t ezhil --minify # if using a theme, replace with `hugo -t <YOURTHEME>`
 
 # Go To Public folder
 cd public
@@ -17,7 +17,7 @@ git add .
 # Commit changes.
 msg="rebuilding site $(date)"
 if [ -n "$*" ]; then
-	msg="$*"
+  msg="$*"
 fi
 git commit -m "$msg"
 

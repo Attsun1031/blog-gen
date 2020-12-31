@@ -1,0 +1,7 @@
+[submodule "blog/themes/ezhil"]
+	path = blog/themes/ezhil
+	url = git@github.com:vividvilla/ezhil.git
+[submodule "blog/public"]
+	path = blog/public
+	url = git@github.com:Attsun1031/Attsun1031.github.io.git
+	branch = main

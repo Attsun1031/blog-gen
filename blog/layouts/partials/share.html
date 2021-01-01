@@ -1,0 +1,11 @@
+{{ if ne .Params.share false}}
+<section class="section sns">
+  <nav class="nav social">
+    <ul class="flat">
+      <a href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}" target="_blank" title="Tweet"><i data-feather="twitter"></i></a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}" target="_blank" title="facebook"><i data-feather="facebook"></i></a>
+    </ul>
+  </nav>
+</section>
+{{ end }}
+

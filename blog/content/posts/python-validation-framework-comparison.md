@@ -47,45 +47,45 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 
 ## スキーマ定義に関する機能
 
-|                       | pydantic | marshmallow | attrs | cerberus |
-| --------------------- | -------- | ----------- | ----- | -------- |
-| スキーマ定義の方法    | class    | class       | class | dict     |
-| required指定          | Yes      | Yes         | Yes   | Yes      |
-| nullable可否の指定    | Yes      | Yes         | Yes   | Yes      |
-| defaultの指定         | Yes      | Yes         | Yes   | Yes      |
-| default factoryの指定 |          |             |       |          |
-|                       |          |             |       |          |
-|                       |          |             |       |          |
-|                       |          |             |       |          |
-|                       |          |             |       |          |
+|                         | pydantic | marshmallow | attrs | cerberus |
+| ----------------------- | -------- | ----------- | ----- | -------- |
+| スキーマ定義の方法      | class    | class       | class | dict     |
+| required指定            | Yes      | Yes         | Yes   | Yes      |
+| nullable可否の指定      | Yes      | Yes         | Yes   | Yes      |
+| defaultの指定           | Yes      | Yes         | Yes   | Yes      |
+| default factoryの指定   | Yes      | Yes         | Yes   | Yes      |
+| カスタム型              | Yes      | Yes         | Yes   | Yes      |
+| 定義のネスト            | Yes      | Yes         | No    | Yes      |
+| 定義の再利用 (継承など) | Yes      | Yes         | No    | Yes      |
+| 定義の動的生成          | Yes      | No          | No    | Yes      |
+| 型アノテーション        | Yes      | No          | Yes   | No       |
+
+* pydanticは高機能
+* cerberusは唯一、dictでスキーマ定義をする
+* attrsは複雑な用途には不向き
+* marshmallowも高機能だが、スキーマクラスをデータオブジェクトとして利用できない点がpydantic / attrsとの差。適切なデータオブジェクトへの変換はユーザーが責任を持つ。
+  * https://marshmallow.readthedocs.io/en/stable/quickstart.html#deserializing-objects-loading
 
 
 
-* スキーマ定義
-  * クラスによるスキーマ定義
-  * デフォルト関連
-    * デフォルトファクトリ
-    * Required
-  * typing対応
-  * 型
-    * コレクション対応
-    * カスタムクラス対応
-    * Enum対応
-  * 定義の自由度
-    * 拡張性
-    * 動的定義
-  * イミュータブル
-* バリデーション定義
-  * フィールドバリデーション
-    * 型
-    * 範囲
-    * 正規表現
-    * choices
-  * カスタムバリデーション
-    * 自前のコード
-    * 複数フィールド
-  * エラーハンドリング
-  * 余分なフィールドを無視・エラー
+## バリデーション定義に関する機能
+
+|                                                        | pydantic | marshmallow | attrs | cerberus |
+| ------------------------------------------------------ | -------- | ----------- | ----- | -------- |
+| 型バリデーション                                       |          |             |       |          |
+| Union型バリデーション                                  |          |             |       |          |
+| min/maxバリデーション                                  |          |             |       |          |
+| lengthバリデーション                                   |          |             |       |          |
+| 正規表現バリデーション                                 |          |             |       |          |
+| oneOfバリデーション                                    |          |             |       |          |
+| カスタムバリデーション                                 |          |             |       |          |
+| 複数フィールドにまたがるバリデーション                 |          |             |       |          |
+| エラーメッセージのカスタマイズ                         |          |             |       |          |
+| 未定義のフィールドの扱い（無視・エラー選択）           |          |             |       |          |
+| バリデーションタイミングの選択（生成時に無視できるか） |          |             |       |          |
+
+
+
 * シリアライズ
   * 形式
     * json string, xml, pickle, dict...
@@ -99,16 +99,16 @@ Pythonには標準でスキーマバリデーションライブラリがない�
   * クラスで定義したスキーマのインスタンスとしてデシリアライズできるか？
   * 環境変数
   * エイリアス
-  * インスタンス生成
-    * バリデーションタイミング
-    * データ変換の手法
-      * attrは型変換がなくめんどそう
+  * データ変換の手法
+    * attrは型変換がなくめんどそう
 * その他
+  * イミュータブル
   * OpenAPI
   * コードジェネレータ
   * 別ライブラリとの統合
     * dataclass
     * ORMapper
+  * 定性的な使い心地
 
 # パフォーマンスの比較
 

@@ -72,27 +72,45 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 
 ## バリデーション定義に関する機能
 
-|                                                        | pydantic | marshmallow | attrs | cerberus |
-| ------------------------------------------------------ | -------- | ----------- | ----- | -------- |
-| 型バリデーション                                       | Yes      | Yes         | Yes   |          |
-| Union型バリデーション                                  | Yes      | No ※        | No    | Yes      |
-| 範囲バリデーション（ge / le / gt / lt）                | Yes      | Yes         | No    | Yes      |
-| lengthバリデーション                                   | Yes      | Yes         | No    | Yes      |
-| 正規表現バリデーション                                 | Yes      | Yes         | Yes   | Yes      |
-| oneOfバリデーション                                    | Yes      | Yes         | No    | Yes      |
-| カスタムバリデーション                                 | Yes      | Yes         | Yes   | Yes      |
-| 複数フィールドにまたがるバリデーション                 | Yes      | Yes         | No    | No       |
-| エラーメッセージのカスタマイズ                         |          |             |       |          |
-| 未定義のフィールドの扱い（無視・エラー選択）           |          |             |       |          |
-| バリデーションタイミングの選択（生成時に無視できるか） |          |             |       |          |
+|                                              | pydantic | marshmallow | attrs | cerberus |
+| -------------------------------------------- | -------- | ----------- | ----- | -------- |
+| 型バリデーション                             | Yes      | Yes         | Yes   | Yes      |
+| Union型バリデーション                        | Yes      | No ※        | No    | Yes      |
+| 範囲バリデーション（ge / le / gt / lt）      | Yes      | Yes         | No    | Yes      |
+| lengthバリデーション                         | Yes      | Yes         | No    | Yes      |
+| 正規表現バリデーション                       | Yes      | Yes         | Yes   | Yes      |
+| oneOfバリデーション                          | Yes      | Yes         | No    | Yes      |
+| カスタムバリデーション                       | Yes      | Yes         | Yes   | Yes      |
+| 複数フィールドにまたがるバリデーション       | Yes      | Yes         | No    | No       |
+| 未定義のフィールドの扱い（無視・エラー選択） | Yes      | Yes         | No    | Yes      |
 
 ### コメント
 
 * marshmallowは[プラグイン](https://github.com/adamboche/python-marshmallow-union)を別途インストールすることでUnionにも対応できるようです
-* attrはプリセットのバリデータが貧弱なので、カスタムバリデータに頼ることになるでしょう。また、フィールドを跨いだバリデーションについてもありません。
-* cerberusはだいたい対応できていますが、カスタムバリデーションはバリデータクラスへの定義が必要など、手数が多い印象。
+* attrsはバリデータの機能が弱いようです。
 
 
+
+## シリアライズ・デシリアライズに関する機能
+
+|                                       | pydantic | marshmallow | attrs | cerberus |
+| ------------------------------------- | -------- | ----------- | ----- | -------- |
+| model -> dict                         | Yes      | Yes ※       |       |          |
+| dict -> model                         | Yes      | Yes ※       |       |          |
+| ※model -> json文字列                  | Yes      | Yes ※       |       |          |
+| json文字列 -> ※model (date, enum入り) | Yes      | Yes ※       |       |          |
+| フィールドエイリアス（シリアライズ）  |          |             |       |          |
+| フィールド除外（シリアライズ）        |          |             |       |          |
+| カスタムシリアライザ                  |          |             |       |          |
+| 環境変数読み込み（デシリアライズ）    |          |             |       |          |
+|                                       |          |             |       |          |
+
+※ model <-> json文字列変換には、datetime, enum, ネストしたモデル型を持つモデルを対象とします。
+
+### コメント
+
+* marshmallowは、Enum型への対応は [プラグイン](https://pypi.org/project/marshmallow-enum/)が必要
+* marshmallowは、datetime型をdictからモデルに変換する場合、文字列に直さないと変換できない。
 
 * シリアライズ
   * 形式

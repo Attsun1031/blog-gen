@@ -93,24 +93,34 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 
 ## シリアライズ・デシリアライズに関する機能
 
-|                                       | pydantic | marshmallow | attrs | cerberus |
-| ------------------------------------- | -------- | ----------- | ----- | -------- |
-| model -> dict                         | Yes      | Yes ※       |       |          |
-| dict -> model                         | Yes      | Yes ※       |       |          |
-| ※model -> json文字列                  | Yes      | Yes ※       |       |          |
-| json文字列 -> ※model (date, enum入り) | Yes      | Yes ※       |       |          |
-| フィールドエイリアス（シリアライズ）  |          |             |       |          |
-| フィールド除外（シリアライズ）        |          |             |       |          |
-| カスタムシリアライザ                  |          |             |       |          |
-| 環境変数読み込み（デシリアライズ）    |          |             |       |          |
-|                                       |          |             |       |          |
+|                                    | pydantic | marshmallow | attrs | cerberus |
+| ---------------------------------- | -------- | ----------- | ----- | -------- |
+| model -> dict                      | Yes      | Yes ※       | Yes   | No       |
+| dict -> model                      | Yes      | Yes ※       | Yes   | No       |
+| ※model -> json文字列               | Yes      | No          | No    | No       |
+| json文字列 -> ※model               | Yes      | No          | No    | No       |
+| フィールド名のエイリアス           | Yes      | No          | No    | No       |
+| フィールド除外（シリアライズ）     | Yes      | Yes         | No?   | No       |
+| カスタムシリアライザ               | Yes      | Yes         | Yes   | No       |
+| 環境変数読み込み（デシリアライズ） | Yes      | No          | No    | No       |
 
-※ model <-> json文字列変換には、datetime, enum, ネストしたモデル型を持つモデルを対象とします。
+※ model <-> json文字列変換には、datetime, enum, ネストしたモデル型を持つモデルを対象とします。datetimeやEnumといった型を、特にコードを追加することなく設定などで文字列化可能かを検査しています。
 
 ### コメント
 
-* marshmallowは、Enum型への対応は [プラグイン](https://pypi.org/project/marshmallow-enum/)が必要
-* marshmallowは、datetime型をdictからモデルに変換する場合、文字列に直さないと変換できない。
+* marshmallowについて
+  * Enum型への対応は [プラグイン](https://pypi.org/project/marshmallow-enum/)を使えば可能です。
+  * datetime型をdictからモデルに変換する場合、文字列に直さないと変換できません。
+  * [モデルデータを保持するクラスは、ライブラリを使ったスキーマとは別に自分で用意しなければいけない](https://marshmallow.readthedocs.io/en/stable/quickstart.html#deserializing-to-objects)ため、型定義が二重になる。
+* attrsについて
+  * `cattr` を使えば `datetime` にも対応できますが、追加のコードが必要です。
+  * 使い慣れていないので、実はYesの項目もあるかもです。
+* cerberusについて
+  * そもそもモデルクラスのインスタンスに変換することをサポートしていません。
+* pydantic
+  * 環境変数が読み込めるのがユニークです。これにより、[設定管理にも利用](https://pydantic-docs.helpmanual.io/usage/settings/)できます。[dotenv](https://pypi.org/project/python-dotenv/)も利用できます。
+
+
 
 * シリアライズ
   * 形式

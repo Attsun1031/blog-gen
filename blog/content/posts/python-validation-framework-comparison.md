@@ -14,12 +14,12 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 
 ※Pythonバージョンは3.9.0を利用します。
 
-| ライブラリ                                                   | バージョン      | Github Star (2020/1/5) | 概要                                                         |
-| ------------------------------------------------------------ | --------------- | ---------------------- | ------------------------------------------------------------ |
-| [pydantic](https://pydantic-docs.helpmanual.io)              | 1.7.3           | 5.0k                   | 今回の比較対象の中では最も新しい。FastAPIに組み込まれている。 |
-| [marshmallow](https://marshmallow.readthedocs.io/en/stable/) | 3.10.0          | 5.2k                   | 最も人気。FlaskやSQLAlchemyといった人気ライブラリとのインテグレーションもある。 |
-| [attrs](https://www.attrs.org/en/stable/) (+ [cattrs](https://github.com/Tinche/cattrs)) | 20.3.0, (1.1.2) | 3.3k                   | Pythonクラスを簡単に定義するために開発されたもの。標準のdataclassで["Why not just use attrs ?"](https://www.python.org/dev/peps/pep-0557/#why-not-just-use-attrs)と注釈されている。cattrsは、attrsにシリアライズ・デシリアライズを可能にするライブラリ。今回は併用する前提で比較。 |
-| [cerberus](http://docs.python-cerberus.org)                  | 1.3.2           | 2.3k                   | [eve](https://docs.python-eve.org/en/stable/)というFlaskベースのフレームワークで採用されている。eve自体を利用している例は見たことがないが、cerberus単体では利用されている印象。 |
+| lib&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | version         | Github Star <br> (2020/1/5) | memo                                                         |
+| :----------------------------------------------------------- | --------------- | --------------------------- | ------------------------------------------------------------ |
+| [pydantic](https://pydantic-docs.helpmanual.io)              | 1.7.3           | 5.0k                        | 今回の比較対象の中では最も新しい。 <br> FastAPIに組み込まれている。 |
+| [marshmallow](https://marshmallow.readthedocs.io/en/stable/) | 3.10.0          | 5.2k                        | 最も人気。FlaskやSQLAlchemyといった人気ライブラリ <br> とのインテグレーションもある。 |
+| [attrs](https://www.attrs.org/en/stable/) <br>(+ [cattrs](https://github.com/Tinche/cattrs)) | 20.3.0, (1.1.2) | 3.3k                        | Pythonクラスを簡単に定義するために開発されたもの。<br>標準のdataclassで["Why not just use attrs ?"](https://www.python.org/dev/peps/pep-0557/#why-not-just-use-attrs)と注釈されている。<br>cattrsは、attrsにシリアライズ・デシリアライズを可能にするライブラリ。<br>今回は併用する前提で比較。 |
+| [cerberus](http://docs.python-cerberus.org)                  | 1.3.2           | 2.3k                        | [eve](https://docs.python-eve.org/en/stable/)というFlaskベースのフレームワークで採用されている。<br>eve自体を利用している例は見たことがないが、<br>cerberus単体では利用されている印象。 |
 
 
 

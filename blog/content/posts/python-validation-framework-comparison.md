@@ -1,14 +1,16 @@
 ---
-title: "Pythonスキーマバリデーションライブラリ比較"
-date: 2021-01-04T23:49:44+09:00
-draft: true
-description: ""
+title: "Pythonスキーマバリデーションライブラリ比較 (pydantic, marshmallow, attrs, cerberus)"
+date: 2021-01-16T12:49:44+09:00
+draft: false
+description: "Pythonスキーマバリデーションライブラリについて比較してみました。"
 tags: ["python","tech"]
 ---
 
-ウェブAPIの作成など、外部からやってくるデータを安全に捌く上でスキーマ定義とバリデーションは非常に重要です。また、特にPythonのような動的型付け言語において、内部でもレイヤをまたぐ場合はきちんと定義されたデータモデルを利用することで、知らない間にデータモデルが変わっていた、というようなケースを防ぐことができます。
+ウェブAPIの作成など、外部からやってくるデータを安全に捌く上で、スキーマ定義とバリデーションは非常に重要です。
 
-Pythonには標準でスキーマバリデーションライブラリがないため3rdパーティのものを使うことになりますが、複数あるので比較してみます。
+また、特にPythonのような動的型付け言語において、内部でもレイヤをまたぐ場合はきちんと定義されたデータモデルを利用することで、知らない間にデータモデルが変わっていた、というようなケースを防ぐことができます。
+
+Pythonには標準でスキーマバリデーションライブラリがないため3rdパーティのものを使うことになりますが、様々なライブラリがあるので比較してみました。
 
 # 比較対象のライブラリ概要
 
@@ -29,17 +31,15 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 * バリデーション定義が可能なこと
 * ある程度アクティブなプロジェクトであること
 * HTTPリクエストのパースなど、特定の用途のみではなく、幅広い用途に利用できること。
-* デフォルト値の適用や型変換など、バリデーションだけでなく変換処理を持っていること
-* 最大5つ
 
-### 除外した
+### 候補から除外したライブラリ
 
 * [schematics](https://schematics.readthedocs.io/en/latest/)
   * Github Star数は2.4kとまぁまぁ多いですが、2018年12月を最後にコミットが途絶えており、PRも放置されている状態。特殊な機能もなく選定される理由はないので除外。
 * [colander](https://docs.pylonsproject.org/projects/colander/en/latest/)
 * [django-rest-framework](https://www.django-rest-framework.org/)
 * [flask-restful](https://flask-restful.readthedocs.io/en/latest/index.html)
-  * この3つはいずれもスキーマバリデーションが可能ですが、HTTPリクエストパースのために特定のフレームワークと共に利用されることを想定しているので除外
+  * この3つはいずれもスキーマバリデーションが可能ですが、HTTPリクエストパースのために特定のフレームワークと共に利用されることを前提しているので除外
 * [jsonschema](https://python-jsonschema.readthedocs.io/en/v3.2.0/)
   * デフォルト値の適用などの変換処理がないため除外
 
@@ -47,18 +47,18 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 
 ## スキーマ定義に関する機能
 
-|                         | pydantic | marshmallow | attrs | cerberus |
-| ----------------------- | -------- | ----------- | ----- | -------- |
-| スキーマ定義の方法      | class    | class       | class | dict     |
-| required指定            | Yes      | Yes         | Yes   | Yes      |
-| nullable可否の指定      | Yes      | Yes         | Yes   | Yes      |
-| defaultの指定           | Yes      | Yes         | Yes   | Yes      |
-| default factoryの指定   | Yes      | Yes         | Yes   | Yes      |
-| カスタム型              | Yes      | Yes         | Yes   | Yes      |
-| 定義のネスト            | Yes      | Yes         | No    | Yes      |
-| 定義の再利用 (継承など) | Yes      | Yes         | No    | Yes      |
-| 定義の動的生成          | Yes      | No          | No    | Yes      |
-| 型アノテーション        | Yes      | No          | Yes   | No       |
+|                         | pydantic | marshmallow                         | attrs                               | cerberus                            |
+| ----------------------- | -------- | ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| スキーマ定義の方法      | class    | class                               | class                               | dict                                |
+| required指定            | Yes      | Yes                                 | Yes                                 | Yes                                 |
+| nullable可否の指定      | Yes      | Yes                                 | Yes                                 | Yes                                 |
+| defaultの指定           | Yes      | Yes                                 | Yes                                 | Yes                                 |
+| default factoryの指定   | Yes      | Yes                                 | Yes                                 | Yes                                 |
+| カスタム型              | Yes      | Yes                                 | Yes                                 | Yes                                 |
+| 定義のネスト            | Yes      | Yes                                 | <span style="color: red;">No</span> | Yes                                 |
+| 定義の再利用 (継承など) | Yes      | Yes                                 | <span style="color: red;">No</span> | Yes                                 |
+| 定義の動的生成          | Yes      | <span style="color: red;">No</span> | <span style="color: red;">No</span> | Yes                                 |
+| 型アノテーション        | Yes      | <span style="color: red;">No</span> | Yes                                 | <span style="color: red;">No</span> |
 
 ### コメント
 
@@ -72,17 +72,17 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 
 ## バリデーション定義に関する機能
 
-|                                              | pydantic | marshmallow | attrs | cerberus |
-| -------------------------------------------- | -------- | ----------- | ----- | -------- |
-| 型バリデーション                             | Yes      | Yes         | Yes   | Yes      |
-| Union型バリデーション                        | Yes      | No ※        | No    | Yes      |
-| 範囲バリデーション（ge / le / gt / lt）      | Yes      | Yes         | No    | Yes      |
-| lengthバリデーション                         | Yes      | Yes         | No    | Yes      |
-| 正規表現バリデーション                       | Yes      | Yes         | Yes   | Yes      |
-| oneOfバリデーション                          | Yes      | Yes         | No    | Yes      |
-| カスタムバリデーション                       | Yes      | Yes         | Yes   | Yes      |
-| 複数フィールドにまたがるバリデーション       | Yes      | Yes         | No    | No       |
-| 未定義のフィールドの扱い（無視・エラー選択） | Yes      | Yes         | No    | Yes      |
+|                                              | pydantic | marshmallow                           | attrs                               | cerberus                            |
+| -------------------------------------------- | -------- | ------------------------------------- | ----------------------------------- | ----------------------------------- |
+| 型バリデーション                             | Yes      | Yes                                   | Yes                                 | Yes                                 |
+| Union型バリデーション                        | Yes      | <span style="color: red;">No *</span> | <span style="color: red;">No</span> | Yes                                 |
+| 範囲バリデーション（ge / le / gt / lt）      | Yes      | Yes                                   | <span style="color: red;">No</span> | Yes                                 |
+| lengthバリデーション                         | Yes      | Yes                                   | <span style="color: red;">No</span> | Yes                                 |
+| 正規表現バリデーション                       | Yes      | Yes                                   | Yes                                 | Yes                                 |
+| oneOfバリデーション                          | Yes      | Yes                                   | <span style="color: red;">No</span> | Yes                                 |
+| カスタムバリデーション                       | Yes      | Yes                                   | Yes                                 | Yes                                 |
+| 複数フィールドにまたがるバリデーション       | Yes      | Yes                                   | <span style="color: red;">No</span> | <span style="color: red;">No</span> |
+| 未定義のフィールドの扱い（無視・エラー選択） | Yes      | Yes                                   | <span style="color: red;">No</span> | Yes                                 |
 
 ### コメント
 
@@ -93,18 +93,18 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 
 ## シリアライズ・デシリアライズに関する機能
 
-|                                    | pydantic | marshmallow | attrs | cerberus |
-| ---------------------------------- | -------- | ----------- | ----- | -------- |
-| model -> dict                      | Yes      | Yes         | Yes   | No       |
-| dict -> model                      | Yes      | Yes         | Yes   | No       |
-| ※model -> json文字列               | Yes      | No          | No    | No       |
-| json文字列 -> ※model               | Yes      | No          | No    | No       |
-| フィールド名のエイリアス           | Yes      | No          | No    | No       |
-| フィールド除外（シリアライズ）     | Yes      | Yes         | No?   | No       |
-| カスタムシリアライザ               | Yes      | Yes         | Yes   | No       |
-| 環境変数読み込み（デシリアライズ） | Yes      | No          | No    | No       |
+|                                    | pydantic | marshmallow                         | attrs                                 | cerberus                            |
+| ---------------------------------- | -------- | ----------------------------------- | ------------------------------------- | ----------------------------------- |
+| model -> dict                      | Yes      | Yes                                 | Yes                                   | <span style="color: red;">No</span> |
+| dict -> model                      | Yes      | Yes                                 | Yes                                   | <span style="color: red;">No</span> |
+| ※model -> json文字列               | Yes      | <span style="color: red;">No</span> | <span style="color: red;">No</span>   | <span style="color: red;">No</span> |
+| json文字列 -> ※model               | Yes      | <span style="color: red;">No</span> | <span style="color: red;">No</span>   | <span style="color: red;">No</span> |
+| フィールド名のエイリアス           | Yes      | <span style="color: red;">No</span> | <span style="color: red;">No</span>   | <span style="color: red;">No</span> |
+| フィールド除外（シリアライズ）     | Yes      | Yes                                 | <span style="color: red;">No ?</span> | <span style="color: red;">No</span> |
+| カスタムシリアライザ               | Yes      | Yes                                 | Yes                                   | <span style="color: red;">No</span> |
+| 環境変数読み込み（デシリアライズ） | Yes      | <span style="color: red;">No</span> | <span style="color: red;">No</span>   | <span style="color: red;">No</span> |
 
-※ model <-> json文字列変換には、datetime, enum, ネストしたモデル型を持つモデルを対象とします。datetimeやEnumといった型を、特にコードを追加することなく設定などで文字列化可能かを検査しています。
+※ model <-> json文字列変換には、datetime, enum, ネストしたモデル型を持つモデルを対象とします。datetimeやEnumといった型を、特にカスタムコードを追加することなく文字列化可能かを検査しています。
 
 ### コメント
 
@@ -142,7 +142,7 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 
 # まとめ
 
-少しPydanticびいきの比較になってしまったような気もしますが、概ね以下の通りです。
+Pydanticびいきの比較になってしまったような気もしますが、概ね以下の通りです。
 
 * pydantic
   * 機能の充実度と書きやすさが両立されており、まず最初に候補に入れるべきライブラリ。
@@ -150,6 +150,7 @@ Pythonには標準でスキーマバリデーションライブラリがない�
 * marshmallow
   * Pydanticと同等に近い充実度。pydanticよりも歴史があるので、事例も多い。
   * スキーマからモデルクラスを作る場合、自分で用意しなきゃいけないのが面倒。
+  * 別途インストールするプラグインも多くあるので、機能として足りない部分を補うことも期待できる。
   * Flaskを使うのなら、Pydanticよりもこちらのほうが事例が多そう。[flask-marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/)というライブラリもある。
 * attrs
   * そもそもがバリデーションライブラリではなく、dataclassのようにクラスを書きやすくするライブラリなので、バリデーションについては弱め。

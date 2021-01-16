@@ -10,7 +10,7 @@ pygmentscodefences = true
 pygmentscodefencesguesssyntax = true
 
 # Your Google analytics code.
-# googleAnalytics = "UA-123-45"
+googleAnalytics = "UA-187497329-1"
 # Your Disqus sortname.
 # disqusShortname = "localhost"
 
@@ -19,6 +19,12 @@ paginate = 10
 
 # Number of characters to show in summary.
 summaryLength = 20
+
+# enable raw html
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
 
 [params]
     # Blog subtitle which appears below blog title. Supports markdown.
@@ -38,7 +44,7 @@ summaryLength = 20
 
     # Switch to dark mode or auto detect mode from OS (Optional).
     # "dark" will set mode to dark and "auto" will switch to dark mode if OS is in dark mode.
-    mode = "auto" # "dark" or "auto"
+    # mode = "auto" # "dark" or "auto"
 
     # Custom CSS added to default styles. Files added to `static` folder is copied as it is to
     # root by Hugo. For example if you have custom CSS file under `static/css/custom.css` then

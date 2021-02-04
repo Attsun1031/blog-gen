@@ -31,7 +31,7 @@ tags: []
 
 ### [dbt](https://docs.getdbt.com/docs/introduction)
 
-[fishtown analytics](https://www.fishtownanalytics.com/) という企業により、2016年から開発されています。dbtとは、 `data build tool` の略です。
+[fishtown analytics](https://www.fishtownanalytics.com/) という組織により、2016年から開発されています。dbtとは、 `data build tool` の略です。
 
 CLIとして利用するOSS版と、dbt Cloudという統合開発環境＋実行環境が付属した商用版があります。CLIの場合、スケジューラーや実行環境がないため、cronやAirflowなどとともに利用することになるでしょう。
 
@@ -41,9 +41,61 @@ CLIとして利用するOSS版と、dbt Cloudという統合開発環境＋実�
 
 基本的には、統合開発環境と実行環境をセットで提供しています。CLIやREST APIもありますが、基本的にはGUIを利用します。
 
+※ この記事ではCLI版のdbtのみ扱います。
+
 # 比較
 
+いくつかの候補軸で比較をしていこうと思います
 
+## 対応するプラットフォーム
+
+* dbt
+  * Postgres, RedShift, BigQuery, Snowflake, Apache Spark, Databricks, Presto, (その他、サードパーティ製のコネクタあり)
+* Dataform
+  * BigQuery, Snowflake, Redshift, Azure SQL DW, Postgres
+
+どちらも必要十分なカバーはできている印象です。dbtはOSSであるため、独自のコネクタを開発することが可能です。
+
+## 主要な機能
+
+* dbt, Dataform共通
+  * データモデルの定義
+  * データソースの定義
+  * スナップショットの作成
+  * データ品質テストの定義
+  * モデル間依存関係の自動的な解決
+  * プラットフォームにデータ定義（カラムディスクリプションなど）を反映
+* dbtのみ
+  * データソースの鮮度チェック
+  * マクロによる拡張コード
+  * ドキュメントの自動生成
+  * 分析用SQLの管理
+  * 実行前後のHook
+* Dataformのみ
+  * 付属のスケジューラと実行環境
+  * ウェブ上の統合開発環境と管理画面
+  * Javascriptによる拡張コード
+
+dbtのほうが幅広い機能群を持っています。特に、dbtで管理しないデータソースに対しても品質チェックできるのが便利です。ただ、Dataformでも必要十分な機能は備えている印象です。
+
+### DataformのWeb画面
+
+DataformはなんといってもWeb画面が非常に使いやすいです。以下のような良い点があります。
+
+* コードの補完
+* 開発しているSQLの実行
+* 品質テストに失敗した場合、どの行で失敗したかをデータベースに格納してくれるので、調査も非常にしやすい
+* ソースのバージョンコントロール
+* スケジュールの設定
+* 実行履歴の閲覧やリラン
+
+![Dataform web view](/images/dbt-dataform-comparison/dataform_web_view.png)
+
+## カスタマイズ性・外部ツールとの接続性
+
+
+
+## 実際の運用
 
 # 考察
 

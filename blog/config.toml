@@ -25,6 +25,10 @@ summaryLength = 20
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+  [markup.tableOfContents]
+      startLevel = 1
+      endLevel = 3
+      ordered = false
 
 [params]
     # Blog subtitle which appears below blog title. Supports markdown.

@@ -1,7 +1,7 @@
 ---
-title: "dbtとDataform比較し、dbtを使うことにした"
+title: "dbtとDataformを比較し、dbtを使うことにした"
 date: 2021-02-10T10:40:39+09:00
-draft: false
+draft: true
 description: "データ品質の担保としてdbtとDataformを比較し、dbtを選択しました。"
 tags: ["tech","data"]
 

@@ -1,0 +1,6 @@
+<aside>
+    <header>
+    <h2>{{.Title}}</h2>
+    </header>
+    {{ replace .TableOfContents `href="#` (printf `href="%s#` .Permalink) | safeHTML }}
+</aside>
